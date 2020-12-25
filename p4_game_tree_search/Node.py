@@ -1,0 +1,1 @@
+# Node class to represent states of the game
