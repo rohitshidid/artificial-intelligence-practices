@@ -6,7 +6,7 @@ All deserved 100 points out of 100.
 ## Projects
 See the related project folders for more detailed description.
 ### Project 1: Solving Bloxorz Using A* and UCS
-Implemented [A*](https://en.wikipedia.org/wiki/A*_search_algorithm) and [UCS](https://www.educba.com/uniform-cost-search/) algorithms to solve the early stages of the Bloxorz Puzzle and make performance comparison.
+Implemented [A*](https://en.wikipedia.org/wiki/A*_search_algorithm) and [UCS](https://www.educba.com/uniform-cost-search/) algorithms to solve the early stages of the Bloxorz Puzzle and make a performance comparison.
 ### Project 2: Solving Aquarium Puzzle Using CSP
 Represented Aquarium Puzzle as a [Constraint Satisfaction Problem](https://en.wikipedia.org/wiki/Constraint_satisfaction) and solved it using the [constraint](https://pypi.org/project/python-constraint/) library.
 ### Project 3: Solving Fox, Goose, and Bag of Beans Puzzle Using Planning
