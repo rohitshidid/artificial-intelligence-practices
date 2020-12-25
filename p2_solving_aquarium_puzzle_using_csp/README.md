@@ -8,7 +8,7 @@ Represented Aquarium Puzzle as a [Constraint Satisfaction Problem](https://en.wi
 * [CSP representation of the aquarium puzzle](#csp-representation-of-the-aquarium-puzzle)
 * [Input of the program](#input-of-the-program)
 * [Output of the program](#output-of-the-program)
-* [How to run?](#how-to-run?)
+* [How to run](#how-to-run)
 * [License](#license)
 
 ## What is Aquarium Puzzle?
@@ -129,7 +129,7 @@ The output of the program is a .txt file that denotes values of the grids in the
 
     110111
 
-## How to run?
+## How to run
 1) Install [constraint](https://pypi.org/project/python-constraint/) (to solve the puzzle after representing it as a CSP) 
 ```python
 pip install python-constraint
