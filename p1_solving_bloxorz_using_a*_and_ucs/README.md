@@ -24,7 +24,7 @@ of size m × n where:
 - S denotes the tile(s) occupied by the block: if the block is in the vertical orientation then there is one tile labeled S, otherwise (if the block is in the horizontal orientation) there are two adjacent tiles labeled S;
 - G denotes the goal tile: the block needs to be on it (vertically) to fall into the goal.
 
-The matrix (see board2.txt) below represents the game board depicted in Figure 1:
+The matrix (see [board2.txt](./board2.txt)) below represents the game board depicted in Figure 1:
 
     OOOXXXXXXX
 
