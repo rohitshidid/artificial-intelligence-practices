@@ -1,6 +1,6 @@
 Solving Bloxorz using A* and UCS
 =================================
-Implementation of [A*](https://en.wikipedia.org/wiki/A*_search_algorithm) and [UCS](https://www.educba.com/uniform-cost-search/) algorithms to solve the early stages of the Bloxorz Puzzle and make performance comparison.
+Implementation of [A*](https://en.wikipedia.org/wiki/A*_search_algorithm) and [UCS](https://www.educba.com/uniform-cost-search/) algorithms to solve the early stages of the Bloxorz Puzzle and make a performance comparison.
 
 ## Table of Content
 * [What is Bloxorz](#table-of-content)
