@@ -59,10 +59,10 @@ x (x denotes which object is crossing the river)
 * If x is not the farmer, the farmer also crosses to the opposite side of the river with x.
 
 ## The input of the program
-Input consists of two .pddl files. One for the [domain](#domain) (see [dom.pddl](./dom.pddl)), one for the [problem](#problem) (see [prob.pdll](./prob.pddl))
+The input consists of two .pddl files. One for the [domain](#domain) (see [dom.pddl](./dom.pddl)), one for the [problem](#problem) (see [prob.pdll](./prob.pddl))
   
 ## The output of the program
-Output file (see [sas_plan](./sas_plan)) that contains steps of the solution (from initial state to goal state).
+The output file (see [sas_plan](./sas_plan)) that contains the steps of the solution (from initial state to goal state).
 
 **Note:** Farmer is also crossing the river in each step.
 
