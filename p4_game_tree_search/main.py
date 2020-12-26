@@ -1,5 +1,3 @@
-# TODO: check if the input is in the L format
-
 ##########################
 # Min = Player, Max = AI #
 #   ID = '1'     ID = '2'
@@ -40,6 +38,7 @@ def getLByRotation(x,y,rotation):
     elif rotation == 7:
         return [(x,y),(x,y+1),(x+1,y),(x+2,y)]      
 
+# Find possible moves of playerID from the given parentBoard
 def findPossibleLMoves(playerID, parentBoard, isAllResults):
 
     # If parent board is empty, return
@@ -67,6 +66,7 @@ def findPossibleLMoves(playerID, parentBoard, isAllResults):
         rangeY = rangeXY[1]
         for y in rangeY:
             for x in rangeX:
+                checkBlocks = True
                 for blockID in ['A','B']: # block IDs
                     L_coordinates = getLByRotation(x,y,rotation)
                     L2_coordinates = parentBoard.getPlayerPosition('1' if playerID == '2' else '2') # coordinate of other player
@@ -80,10 +80,20 @@ def findPossibleLMoves(playerID, parentBoard, isAllResults):
 
                     for emptyCoordinate in emptyCoordinates:
                         board_temp = copy.deepcopy(parentBoard)
-                            # If the move is possible add the result board to the possible boards list
+                            
+                        # If the move is possible add the result board to the possible boards list
                         if board_temp.move(playerID, L_coordinates, blockID, emptyCoordinate):
                             possibleBoards.append(board_temp)
+                        # If move is not possible no need to check for other blocks positions with same L
+                        else: 
+                            checkBlocks = False # stop checking for the other block
+                            break # stop checking for the given block
                     
+
+                    if checkBlocks == False:
+                        break
+
+
         rotation += 1
     return possibleBoards
 
@@ -126,6 +136,7 @@ def evaluation(childs, playerID):
     else:
         return -1
 
+# minimax with alpha-beta pruning
 def minimax(currentBoard, depth, alpha, beta, playerID):
 
     childs = findPossibleLMoves(playerID, currentBoard, False) # find childs
@@ -159,6 +170,7 @@ def minimax(currentBoard, depth, alpha, beta, playerID):
                 break
         
         return minEval
+
 def aiMove(playerID, possibleMoves):
 
     print('AI is deciding... (It usually takes 20sec.)')
