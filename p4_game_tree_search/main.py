@@ -2,6 +2,7 @@
 
 ##########################
 # Min = Player, Max = AI #
+#   ID = '1'     ID = '2'
 ##########################
 
 # region Imports
@@ -11,43 +12,79 @@ import copy
 import random
 
 # endregion Imports
+allCoordinates = [(0,0),(0,1),(0,2),(0,3),(1,0),(1,1),(1,2),(1,3),(2,0),(2,1),(2,2),(2,3),(3,0),(3,1),(3,2),(3,3)]
 
-def findPossibleLMoves(playerID):
+nextMove = None # Next move of the AI
 
+def updateNextMove(move):
+    global nextMove
+    nextMove = copy.deepcopy(move)
+
+# Return L coordinates for the given (x,y) and rotation number
+def getLByRotation(x,y,rotation):
+
+    if rotation == 0:
+        return [(x,y),(x+1,y),(x,y+1),(x,y+2)]
+    elif rotation == 1:
+        return [(x,y),(x-1,y),(x,y+1),(x,y+2)]
+    elif rotation == 2:    
+       return [(x,y),(x,y+1),(x,y+2),(x+1,y+2)]
+    elif rotation == 3:
+        return [(x,y),(x,y+1),(x,y+2),(x-1,y+2)]
+    elif rotation == 4:
+        return [(x,y),(x+1,y),(x+2,y),(x+2,y-1)]
+    elif rotation == 5:
+        return [(x,y),(x+1,y),(x+2,y),(x+2,y+1)]
+    elif rotation == 6:
+        return [(x,y),(x,y+1),(x+1,y+1),(x+2,y+1)]
+    elif rotation == 7:
+        return [(x,y),(x,y+1),(x+1,y),(x+2,y)]      
+
+def findPossibleLMoves(playerID, parentBoard, isAllResults):
+
+    # If parent board is empty, return
+    if parentBoard == []:
+        return []
+    
+    # ranges of each L rotation
+    ranges = [
+        ([0,1,2],[0,1]), # [(x,y),(x+1,y),(x,y+1),(x,y+2)]
+        ([1,2,3],[0,1]), # [(x,y),(x-1,y),(x,y+1),(x,y+2)]
+        ([0,1,2],[0,1]), # [(x,y),(x,y+1),(x,y+2),(x+1,y+2)]
+        ([1,2,3],[0,1]), # [(x,y),(x,y+1),(x,y+2),(x-1,y+2)]
+        ([0,1],[1,2,3]), # [(x,y),(x+1,y),(x+2,y),(x+2,y-1)]
+        ([0,1],[0,1,2]), # [(x,y),(x+1,y),(x+2,y),(x+2,y+1)]
+        ([0,1],[0,1,2]), # [(x,y),(x,y+1),(x+1,y+1),(x+2,y+1)]
+        ([0,1],[0,1,2]), # [(x,y),(x,y+1),(x+1,y),(x+2,y)]  
+                ]
     possibleBoards = []
-    playerPos = board.getPlayerPosition # get all coordinates of the player
-
-    row, column = len(board.getBoard()), len(board.getBoard()[0])
 
     # Check every possible moves for L and blocks
-    # Note: It is not the most efficient nested loops. Just for readibilty issues.
-    #       Instead, check only 4 position per L rotation and check block positions among empty grids only
-    for y in range(row):
-        for x in range(column):
-            for blockID in ['A','B']: # block IDs
-                for by in range(row):
-                    for bx in range(column):
-                        
-                        # All possible L rotations
-                        all_L_coordinate_combinations = [
-                                                         [(x,y),(x+1,y),(x,y+1),(x,y+2)],
-                                                         [(x,y),(x-1,y),(x,y+1),(x,y+2)],
-                                                         [(x,y),(x,y+1),(x,y+2),(x+1,y+2)],
-                                                         [(x,y),(x,y+1),(x,y+2),(x-1,y+2)],
-                                                         [(x,y),(x+1,y),(x+2,y),(x+2,y-1)],
-                                                         [(x,y),(x+1,y),(x+2,y),(x+2,y+1)],
-                                                         [(x,y),(x,y+1),(x+1,y+1),(x+2,y+1)],
-                                                         [(x,y+2),(x,y+1),(x+1,y+1),(x+2,y+1)],
-                                                        ] 
 
-                        # Check moves for each L rotation and block positions
-                        for L_coordinates in all_L_coordinate_combinations:
+    rotation = 0
+    for rangeXY in ranges:
+        rangeX = rangeXY[0]
+        rangeY = rangeXY[1]
+        for y in rangeY:
+            for x in rangeX:
+                for blockID in ['A','B']: # block IDs
+                    L_coordinates = getLByRotation(x,y,rotation)
+                    L2_coordinates = parentBoard.getPlayerPosition('1' if playerID == '2' else '2') # coordinate of other player
 
-                            board_temp = copy.deepcopy(board)
+                    # Find empty coordinates that block can be replaced
+                    emptyCoordinates = list(filter(lambda x: x not in L_coordinates and
+                                                            x not in L2_coordinates and
+                                                            x != parentBoard.getBlockPosition('A') and
+                                                            x != parentBoard.getBlockPosition('B')
+                                                            , allCoordinates))
+
+                    for emptyCoordinate in emptyCoordinates:
+                        board_temp = copy.deepcopy(parentBoard)
                             # If the move is possible add the result board to the possible boards list
-                            if board_temp.move(playerID, L_coordinates, blockID, (bx,by)):
-                                possibleBoards.append(board_temp)
-
+                        if board_temp.move(playerID, L_coordinates, blockID, emptyCoordinate):
+                            possibleBoards.append(board_temp)
+                    
+        rotation += 1
     return possibleBoards
 
 def playerMove(playerID):
@@ -80,55 +117,85 @@ def playerMove(playerID):
         else:
             print("Invalid move, please try again.")
 
+# evaluation function of the given position by its childs
+def evaluation(childs, playerID):
+    if childs != []:
+        return 0
+    elif playerID == '1':
+        return 1
+    else:
+        return -1
 
-def minimax():
-    return 1
+def minimax(currentBoard, depth, alpha, beta, playerID):
 
-def aiMove(playerID, possibleMoves):
-    bestScore = float('-inf')
-    bestMove = None
+    childs = findPossibleLMoves(playerID, currentBoard, False) # find childs
 
-    for move in possibleMoves:
-        score = minimax()
-        if score > bestScore:
-            bestScore = score
-            bestMove = move
-            if bestScore == 1:
+    if depth == 0 or childs == []:
+        return evaluation(childs, playerID)
+    
+    # If maximizing player
+    if playerID == '2':
+        maxEval = float('-inf')
+        childs = findPossibleLMoves(playerID, currentBoard, True)
+        for child in childs:
+            newEval = minimax(child, depth-1, alpha, beta, '1')
+            maxEval = max(maxEval, newEval)
+            if (maxEval == newEval):
+                updateNextMove(child)
+            alpha = max(alpha, newEval)
+            if beta <= alpha:
                 break
+        return maxEval
     
-    board.assign(bestMove)
+    # If minimizing player
+    elif playerID == '1':
+        minEval = float('+inf')
+        childs = findPossibleLMoves(playerID, currentBoard, True)
+        for child in childs:
+            newEval = minimax(child, depth-1, alpha, beta, '2')
+            minEval = min(minEval, newEval)
+            beta = min(beta, newEval)
+            if beta <= alpha:
+                break
+        
+        return minEval
+def aiMove(playerID, possibleMoves):
 
+    print('AI is deciding... (It usually takes 20sec.)')
+    score = minimax(board, 2, float('-inf'), float('inf'), '2')
 
+    board.assign(nextMove)
 
-
-    
 # region Main
 
 if __name__ == "__main__":
-    
     global board # Current gameboard
     board = Board() 
+
+    moves = findPossibleLMoves('1', board, True)
 
     #Main game loop
     while True:
 
         # Check if player 2 wins
-        possibleMovesPlayer1 = findPossibleLMoves('1')
+        possibleMovesPlayer1 = findPossibleLMoves('1', board, True)
         if(len(possibleMovesPlayer1) <= 0): # If no option left for the player 1, end the game
             print('Player 2 (AI) wins!')
             break
 
         playerMove('1') # Player 1's turn
+
+        print('\nPlayer 1 moved.\nBoard:')
         print(board)
 
-
         # Check if player 1 wins
-        possibleMovesAI = findPossibleLMoves('2')
+        possibleMovesAI = findPossibleLMoves('2', board, True)
         if(len(possibleMovesAI) <= 0): # If no option left for the player 2, end the game
             print('Player 1 wins!')
             break
         
         aiMove('2', possibleMovesAI) # Player 2's turn
+        print('Player 2 moved.\nBoard:')
         print(board)
-
+        
 # endregion Main

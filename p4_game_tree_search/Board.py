@@ -7,27 +7,21 @@ class Board:
         self.row = len(self.board) # total row
         self.column = len(self.board[0]) # total column
 
+        self.posPlayer1 = self.__getPlayerPosition('1')
+        self.posPlayer2 = self.__getPlayerPosition('2')
+        self.posBA = self.__getBlockPosition('A')
+        self.posBB = self.__getBlockPosition('B')
+
     # region Public
-
-    # Getter board
-    def getBoard(self):
-        return self.board
-
-    # Return all 4 coordinates of the player  
-    def getPlayerPosition(self, playerID):
-        coordinates = []
-        for r in range(len(self.board)):
-            for c in range(len(self.board[0])):
-                if self.board[r][c] == playerID:
-                    coordinates.append((r,c))
-        return coordinates
 
     # Move the L and the block with given coordinates if possible
     def move(self, playerID, coordinates_L, blockID, coordinate_B):
         
         # Return false if any of the given coordinate are out of the gaming board
+        '''
         if not self.__isInTheBoard(coordinates_L, coordinate_B):
             return False
+        '''
 
         ####################### First try to move the L #######################
 
@@ -60,9 +54,16 @@ class Board:
 
         
         # replace the player
+        if playerID == '1':
+            self.posPlayer1 = []
+        else:
+            self.posPlayer2 = []
         for coordinate in coordinates_L:
             self.board[coordinate[1]][coordinate[0]] = playerID
-        
+            if playerID == '1':
+                self.posPlayer1.append(coordinate)
+            else:
+                self.posPlayer2.append(coordinate)
 
         ####################### Then try to move the block #######################
 
@@ -71,6 +72,10 @@ class Board:
 
             self.board[block_coor_init[1]][block_coor_init[0]] = '.' # remove the block from its previous position
             self.board[coordinate_B[1]][coordinate_B[0]] = blockID # add the block to the new position
+            if blockID == 'A':
+                self.posBA = coordinate_B
+            else:
+                self.posBB = coordinate_B
             return True
         else:
             return False
@@ -93,6 +98,27 @@ class Board:
         return strBoard
 
     # endregion Public
+
+
+    # region Getters
+
+    def getBoard(self):
+        return self.board
+
+    def getPlayerPosition(self, playerID):
+        if playerID == '1':
+            return self.posPlayer1
+        else:
+            return self.posPlayer2
+
+    def getBlockPosition(self, blockID):
+        if blockID == 'A':
+            return self.posBA
+        else:
+            return self.posBB
+
+    # endregion Getters
+
 
     # region Private 
 
@@ -119,6 +145,22 @@ class Board:
 
         return board
     
+        # Return all 4 coordinates of the player  
+    
+    def __getPlayerPosition(self, playerID):
+        coordinates = []
+        for r in range(len(self.board)):
+            for c in range(len(self.board[0])):
+                if self.board[r][c] == playerID:
+                    coordinates.append((r,c))
+        return coordinates
+
+    def __getBlockPosition(self, blockID):
+        for r in range(len(self.board)):
+            for c in range(len(self.board[0])):
+                if self.board[r][c] == blockID:
+                    return (c,r)
+
     # Check if the given L and block coordinates are on the game board
     def __isInTheBoard(self, coordinates_L, coordinate_B):
         
