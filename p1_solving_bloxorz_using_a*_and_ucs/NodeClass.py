@@ -1,7 +1,6 @@
-# Node class to represents each state of the game
+# Node class to represent each state of the game
 
 # Coordinates: (x,y) position or [(x1,y1), (x2,y2)] position of the block according to it's position
-# Parent: parent node, if such a node exists
 # Cost: Cost to reach to the node from it's parent
 class Node:
 
@@ -10,7 +9,7 @@ class Node:
     def __init__(self, coordinates, cost, heuristic = 0):
         self.coordinates = coordinates # coordinate 
         self.parent = None # parent of the node
-        self.childs = [] # childs of the node
+        self.children = [] # children of the node
         self.cost = cost # path cost for the given node
         self.heuristic = heuristic # 0 for UCS
 
@@ -27,7 +26,7 @@ class Node:
     # region Adders
 
     def AddChild(self, child):
-        self.childs.append(child) 
+        self.children.append(child) 
 
     # endregion
 
