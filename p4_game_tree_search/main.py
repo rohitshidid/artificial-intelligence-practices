@@ -1,3 +1,7 @@
+# TODO: Add more input checks
+# Make input checks iteratively
+# Board.py -> update player and box position when the move is executed
+
 ##########################
 # Min = Player, Max = AI #
 #   ID = '1'     ID = '2'
@@ -7,16 +11,12 @@
 
 from Board import Board # Game board
 import copy
-import random
 
 # endregion Imports
+
 allCoordinates = [(0,0),(0,1),(0,2),(0,3),(1,0),(1,1),(1,2),(1,3),(2,0),(2,1),(2,2),(2,3),(3,0),(3,1),(3,2),(3,3)]
 
-nextMove = None # Next move of the AI
-
-def updateNextMove(move):
-    global nextMove
-    nextMove = copy.deepcopy(move)
+nextMove = None # to get next move of the AI from the minimax function
 
 # Return L coordinates for the given (x,y) and rotation number
 def getLByRotation(x,y,rotation):
@@ -58,34 +58,35 @@ def findPossibleLMoves(playerID, parentBoard, isAllResults):
                 ]
     possibleBoards = []
 
-    # Check every possible moves for L and blocks
-
+    # Find all valid moves of the player from the current state
     rotation = 0
     for rangeXY in ranges:
         rangeX = rangeXY[0]
         rangeY = rangeXY[1]
         for y in rangeY:
             for x in rangeX:
-                checkBlocks = True
+                
                 for blockID in ['A','B']: # block IDs
+                    checkBlocks = True
+
                     L_coordinates = getLByRotation(x,y,rotation)
                     L2_coordinates = parentBoard.getPlayerPosition('1' if playerID == '2' else '2') # coordinate of other player
 
-                    # Find empty coordinates that block can be replaced
+                    # Find the empty coordinates that the block can be replaced
                     emptyCoordinates = list(filter(lambda x: x not in L_coordinates and
                                                             x not in L2_coordinates and
                                                             x != parentBoard.getBlockPosition('A') and
                                                             x != parentBoard.getBlockPosition('B')
-                                                            , allCoordinates))
-
+                                                            , allCoordinates.copy()))         
                     for emptyCoordinate in emptyCoordinates:
                         board_temp = copy.deepcopy(parentBoard)
                             
                         # If the move is possible add the result board to the possible boards list
                         if board_temp.move(playerID, L_coordinates, blockID, emptyCoordinate):
                             possibleBoards.append(board_temp)
+
                         # If move is not possible no need to check for other blocks positions with same L
-                        else: 
+                        else:
                             checkBlocks = False # stop checking for the other block
                             break # stop checking for the given block
                     
@@ -97,15 +98,16 @@ def findPossibleLMoves(playerID, parentBoard, isAllResults):
         rotation += 1
     return possibleBoards
 
-def playerMove(playerID):
+# Make a move by player input
+def playerMove(playerID, parenBoard):
 
     validMove = False
-
+    
     # Get a valid input from the user
     while not validMove:
 
-        print('\nEnter new L position ((0,0) is top left)')
-
+        print('\nEnter the new L position ((0,0) is top left)')
+        possibleMoves = findPossibleLMoves('1',copy.deepcopy(parenBoard),True)
         # Get L move
         new_L_coordinates = []
         for i in range(1,5):
@@ -115,21 +117,46 @@ def playerMove(playerID):
             new_L_coordinates.append((x,y))
         
         # Get block move
-        blockID = input('Enter ID of the block to move (ex: A): ')
-        print('Enter new box position ((0,0) is top left)')
+        while True:
+            blockID = input('Enter ID of the block to move (Enter \'A\' or \'B\'): ')
+            if blockID == 'A' or blockID == 'B':
+                break
+            else:
+                print('Invalid block ID!')
+                
+        print('Enter a new position for the box ((0,0) is top left)')
         bx = int(input('x: '))
         by = int(input('y: '))
 
+        # Check if the move is in L position
+        temp_board = copy.deepcopy(parenBoard)
+        temp_board.move(playerID, new_L_coordinates, blockID, (bx,by))
+
+        isInPossibleMoves = False
+
+        for possibleMove in possibleMoves:
+
+            if (str(possibleMove) == str(temp_board)):
+                isInPossibleMoves = True
+                break
+
+
         # If move is possible, move
-        if copy.deepcopy(board).move(playerID, new_L_coordinates, blockID, (bx,by)):
-            board.move(playerID, new_L_coordinates, blockID, (bx,by))
+        if isInPossibleMoves:
+            
+            parenBoard.move(playerID, new_L_coordinates, blockID, (bx,by))
             validMove = True
         else:
             print("Invalid move, please try again.")
 
-# evaluation function of the given position by its childs
-def evaluation(childs, playerID):
-    if childs != []:
+# Update next move of the AI
+def updateNextMove(move):
+    global nextMove
+    nextMove = copy.deepcopy(move)
+
+# evaluation function of the given position by its children
+def evaluation(children, playerID):
+    if children != []:
         return 0
     elif playerID == '1':
         return 1
@@ -139,16 +166,16 @@ def evaluation(childs, playerID):
 # minimax with alpha-beta pruning
 def minimax(currentBoard, depth, alpha, beta, playerID):
 
-    childs = findPossibleLMoves(playerID, currentBoard, False) # find childs
+    children = findPossibleLMoves(playerID, currentBoard, False) # find children
 
-    if depth == 0 or childs == []:
-        return evaluation(childs, playerID)
+    if depth == 0 or children == []:
+        return evaluation(children, playerID)
     
     # If maximizing player
     if playerID == '2':
         maxEval = float('-inf')
-        childs = findPossibleLMoves(playerID, currentBoard, True)
-        for child in childs:
+        children = findPossibleLMoves(playerID, currentBoard, True)
+        for child in children:
             newEval = minimax(child, depth-1, alpha, beta, '1')
             maxEval = max(maxEval, newEval)
             if (maxEval == newEval):
@@ -161,8 +188,8 @@ def minimax(currentBoard, depth, alpha, beta, playerID):
     # If minimizing player
     elif playerID == '1':
         minEval = float('+inf')
-        childs = findPossibleLMoves(playerID, currentBoard, True)
-        for child in childs:
+        children = findPossibleLMoves(playerID, currentBoard, True)
+        for child in children:
             newEval = minimax(child, depth-1, alpha, beta, '2')
             minEval = min(minEval, newEval)
             beta = min(beta, newEval)
@@ -173,7 +200,7 @@ def minimax(currentBoard, depth, alpha, beta, playerID):
 
 def aiMove(playerID, possibleMoves):
 
-    print('AI is deciding... (It usually takes 20sec.)')
+    print('AI is deciding... (It usually takes ~20sec.)')
     score = minimax(board, 2, float('-inf'), float('inf'), '2')
 
     board.assign(nextMove)
@@ -183,8 +210,10 @@ def aiMove(playerID, possibleMoves):
 if __name__ == "__main__":
     global board # Current gameboard
     board = Board() 
-
-    moves = findPossibleLMoves('1', board, True)
+    
+    print()
+    print('Initial board')
+    print(board, end =" ")
 
     #Main game loop
     while True:
@@ -195,7 +224,7 @@ if __name__ == "__main__":
             print('Player 2 (AI) wins!')
             break
 
-        playerMove('1') # Player 1's turn
+        playerMove('1',board) # Player 1's turn
 
         print('\nPlayer 1 moved.\nBoard:')
         print(board)
@@ -208,6 +237,6 @@ if __name__ == "__main__":
         
         aiMove('2', possibleMovesAI) # Player 2's turn
         print('Player 2 moved.\nBoard:')
-        print(board)
+        print(board,end=" ")
         
 # endregion Main
