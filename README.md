@@ -15,7 +15,7 @@ Represented the [Fox, Goose, and Bag of Beans Puzzle](https://en.wikipedia.org/w
 Implementation of the [Alpha–beta pruning](https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning#:~:text=Alpha%E2%80%93beta%20pruning%20is%20a,%2C%20Go%2C%20etc.) algorithm to create a two-player zero-sum game that the player play against the AI.
 
 ### Project 5: Bayesian Network
-An example [Bayesian Network](https://en.wikipedia.org/wiki/Bayesian_network) in [Samiam](http://reasoning.cs.ucla.edu/samiam/).
+A [Bayesian Network](https://en.wikipedia.org/wiki/Bayesian_network) example in [Samiam](http://reasoning.cs.ucla.edu/samiam/).
 
 ## License
 [MIT](./LICENSE)
