@@ -1,6 +1,6 @@
 Solving Aquarium Puzzle Using CSP
 =================================
-Represented Aquarium Puzzle as a [Constraint Satisfaction Problem](https://en.wikipedia.org/wiki/Constraint_satisfaction) and solved it using the [constraint](https://pypi.org/project/python-constraint/) library.
+Represented the Aquarium Puzzle as a [Constraint Satisfaction Problem](https://en.wikipedia.org/wiki/Constraint_satisfaction) and solved it using the [constraint](https://pypi.org/project/python-constraint/) library.
 
 ## Table of Content
 
