@@ -1,0 +1,164 @@
+net
+{
+	propagationenginegenerator1791944048146838126L = "edu.ucla.belief.approx.BeliefPropagationSettings@5244953b";
+	recoveryenginegenerator6944530267470113528l = "edu.ucla.util.SettingsImpl@6c04a4b0";
+	node_size = (130.0 55.0);
+}
+
+node variable4
+{
+	states = ("true" "false" );
+	position = (1271 -295);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable4";
+	label = "Raincoat";
+	DSLxEXTRA_DEFINITIONxDIAGNOSIS_TYPE = "AUXILIARY";
+	excludepolicy = "include whole CPT";
+}
+node variable8
+{
+	states = ("true" "false" );
+	position = (726 -1002);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable8";
+	label = "Friend_Angry";
+	DSLxEXTRA_DEFINITIONxDIAGNOSIS_TYPE = "AUXILIARY";
+	excludepolicy = "include whole CPT";
+}
+node variable1
+{
+	states = ("true" "false" );
+	position = (203 -140);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable1";
+	label = "Rush_Hour";
+	DSLxEXTRA_DEFINITIONxDIAGNOSIS_TYPE = "AUXILIARY";
+	excludepolicy = "include whole CPT";
+}
+node variable6
+{
+	states = ("true" "false" );
+	position = (762 -409);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable6";
+	label = "Shortcuts";
+	DSLxEXTRA_DEFINITIONxDIAGNOSIS_TYPE = "AUXILIARY";
+	excludepolicy = "include whole CPT";
+}
+node variable7
+{
+	states = ("late" "on_time" );
+	position = (372 -581);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable7";
+	label = "Timing";
+	DSLxEXTRA_DEFINITIONxDIAGNOSIS_TYPE = "AUXILIARY";
+	excludepolicy = "include whole CPT";
+}
+node variable2
+{
+	states = ("true" "false" );
+	position = (706 -76);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable2";
+	label = "Rainy";
+	DSLxEXTRA_DEFINITIONxDIAGNOSIS_TYPE = "AUXILIARY";
+	excludepolicy = "include whole CPT";
+}
+node variable9
+{
+	states = ("true" "false" );
+	position = (1082 -576);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable9";
+	label = "Late_Before";
+	DSLxEXTRA_DEFINITIONxDIAGNOSIS_TYPE = "AUXILIARY";
+	excludepolicy = "include whole CPT";
+}
+node variable3
+{
+	states = ("true" "false" );
+	position = (426 -272);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable3";
+	label = "Accident";
+	DSLxEXTRA_DEFINITIONxDIAGNOSIS_TYPE = "AUXILIARY";
+	excludepolicy = "include whole CPT";
+}
+node variable5
+{
+	states = ("true" "false" );
+	position = (200 -406);
+	diagnosistype = "AUXILIARY";
+	DSLxSUBMODEL = "Root Submodel";
+	ismapvariable = "false";
+	ID = "variable5";
+	label = "Traffic";
+	DSLxEXTRA_DEFINITIONxDIAGNOSIS_TYPE = "AUXILIARY";
+	excludepolicy = "include whole CPT";
+}
+potential ( variable4 | variable2 )
+{
+	data = ((	0.76	0.24	)
+		(	0.29	0.71	));
+}
+potential ( variable8 | variable7 variable9 )
+{
+	data = (((	0.87	0.13	)
+		(	0.51	0.49	))
+		((	0.17	0.83	)
+		(	0.01	0.99	)));
+}
+potential ( variable1 | )
+{
+	data = (	0.4	0.6	);
+}
+potential ( variable6 | variable5 )
+{
+	data = ((	0.84	0.16	)
+		(	0.21	0.79	));
+}
+potential ( variable7 | variable5 variable6 )
+{
+	data = (((	0.76	0.24	)
+		(	0.92	0.08	))
+		((	0.07	0.93	)
+		(	0.19	0.81	)));
+}
+potential ( variable2 | )
+{
+	data = (	0.24	0.76	);
+}
+potential ( variable9 | variable7 )
+{
+	data = ((	0.73	0.27	)
+		(	0.35	0.65	));
+}
+potential ( variable3 | variable2 )
+{
+	data = ((	0.81	0.19	)
+		(	0.39	0.61	));
+}
+potential ( variable5 | variable3 variable1 )
+{
+	data = (((	0.97	0.03	)
+		(	0.75	0.25	))
+		((	0.89	0.11	)
+		(	0.38	0.62	)));
+}
