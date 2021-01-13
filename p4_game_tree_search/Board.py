@@ -2,6 +2,8 @@
 
 class Board:
 
+    # region Constructor
+    
     def __init__(self):
         self.board = self.__getBoard() # game board represented as a matrix
         self.row = len(self.board) # total row
@@ -11,6 +13,8 @@ class Board:
         self.posPlayer2 = self.__getPlayerPosition('2')
         self.posBA = self.__getBlockPosition('A')
         self.posBB = self.__getBlockPosition('B')
+    
+    # endregion Constructor
 
     # region Public
 
@@ -99,26 +103,22 @@ class Board:
 
     # endregion Public
 
-
     # region Getters
 
     def getBoard(self):
         return self.board
 
     def getPlayerPosition(self, playerID):
-        if playerID == '1':
-            return self.posPlayer1
-        else:
-            return self.posPlayer2
+        return self.__getPlayerPosition(playerID)
+
 
     def getBlockPosition(self, blockID):
         if blockID == 'A':
-            return self.posBA
+            return self.__getBlockPosition('A')
         else:
-            return self.posBB
+            return self.__getBlockPosition('B')
 
     # endregion Getters
-
 
     # region Private 
 
@@ -152,7 +152,7 @@ class Board:
         for r in range(len(self.board)):
             for c in range(len(self.board[0])):
                 if self.board[r][c] == playerID:
-                    coordinates.append((r,c))
+                    coordinates.append((c,r))
         return coordinates
 
     def __getBlockPosition(self, blockID):
