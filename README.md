@@ -11,7 +11,7 @@ Implemented [A*](https://en.wikipedia.org/wiki/A*_search_algorithm) and [UCS](ht
 Represented the Aquarium Puzzle as a [Constraint Satisfaction Problem](https://en.wikipedia.org/wiki/Constraint_satisfaction) and solved it using the [constraint](https://pypi.org/project/python-constraint/) library.
 ### Project 3: Solving Fox, Goose, and Bag of Beans Puzzle Using Planning
 Represented the [Fox, Goose, and Bag of Beans Puzzle](https://en.wikipedia.org/wiki/Wolf,_goat_and_cabbage_problem) in [STRIPS](https://en.wikipedia.org/wiki/Stanford_Research_Institute_Problem_Solver) format and solved it using the [Fast Downward](http://www.fast-downward.org/HomePage) library.
-### Project 4: Alpha–Beta Pruning
+### Project 4: Alpha–Beta Pruning (Bonus)
 Implementation of the [Alpha–beta pruning](https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning#:~:text=Alpha%E2%80%93beta%20pruning%20is%20a,%2C%20Go%2C%20etc.) algorithm to create a two-player zero-sum game that the player play against the AI.
 
 ### Project 5: Bayesian Network
