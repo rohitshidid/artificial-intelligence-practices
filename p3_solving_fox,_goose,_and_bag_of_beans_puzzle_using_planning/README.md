@@ -1,6 +1,6 @@
 Solving Fox, Goose, and Bag of Beans Puzzle Using Planning
 =================================
-Implementation of the [Fox, Goose, and Bag of Beans Puzzle](https://en.wikipedia.org/wiki/Wolf,_goat_and_cabbage_problem) in [PDDL](https://en.wikipedia.org/wiki/Planning_Domain_Definition_Language) format and solved it using the [Fast Downward](http://www.fast-downward.org/HomePage) library.
+Represented the [Fox, Goose, and Bag of Beans Puzzle](https://en.wikipedia.org/wiki/Wolf,_goat_and_cabbage_problem) in [PDDL](https://en.wikipedia.org/wiki/Planning_Domain_Definition_Language) format and solved it using the [Fast Downward](http://www.fast-downward.org/HomePage) library.
 
 ## Table of Content
 
