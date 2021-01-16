@@ -55,7 +55,7 @@ Here is an example: (see [board2.txt](./board2.txt))
 3) Follow the instructions during the game.
 
 ## TODO
-1) At the minimax function, instead of creating all children(possible moves from the current state) of the current node at once, create them iteratively. Since most probably not all of them will get examined due to the alpha–beta pruning.
+1) At the minimax function, instead of creating all children (all possible moves from the current state) of the current node at once, create them iteratively. Since most probably not all of them will get examined due to the alpha–beta pruning.
 
 ## License
   
