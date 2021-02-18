@@ -1,8 +1,6 @@
 # CS404-Artificial-Intelligence
 Projects for the CS404 Artificial Intelligence Course at Sabancı University (Fall 2020).
 
-All deserved 100 points out of 100.
-
 ## Projects
 See the related project folders for a more detailed description.
 ### Project 1: Solving Bloxorz Using A* and UCS
